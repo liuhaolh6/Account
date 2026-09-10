@@ -61,4 +61,17 @@ interface LedgerRepository {
         endMillis: Long,
         type: TransactionType
     ): Result<Summary>
+
+    /**
+     * 持续观察指定时间范围内的流水，用于页面自行做轻量汇总。
+     *
+     * 与 [summarize] 的区别：本方法返回 Flow，数据变化会自动推送，
+     * 适合预算页这类需要"记账后立即刷新"的场景；
+     * 而 [summarize] 是一次性快照，适合统计页手动切换月份后重查。
+     *
+     * @param startMillis 起始时间（含）
+     * @param endMillis 结束时间（不含）
+     * @return 该范围内流水的流
+     */
+    fun observeSummarySource(startMillis: Long, endMillis: Long): Flow<List<Transaction>>
 }

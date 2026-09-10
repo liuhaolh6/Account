@@ -53,6 +53,11 @@ class LedgerRepositoryImpl(private val dao: TransactionDao) : LedgerRepository {
         dao.deleteById(id)
     }
 
+    override fun observeSummarySource(
+        startMillis: Long,
+        endMillis: Long
+    ): Flow<List<Transaction>> = observeBetween(startMillis, endMillis)
+
     override suspend fun summarize(
         startMillis: Long,
         endMillis: Long,

@@ -11,6 +11,7 @@ import com.example.ledger.util.DateUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -72,7 +73,7 @@ class BudgetViewModel(
 
     init {
         observeBudget()
-        refreshSpent()
+        observeSpent()
     }
 
     /**
@@ -143,21 +144,28 @@ class BudgetViewModel(
         }
     }
 
-    /** 统计本月支出，用于预算进度展示 */
-    private fun refreshSpent() {
+    /**
+     * 持续订阅本月支出。
+     *
+     * 早期版本用一次性查询，导致记账后回到预算页仍显示旧金额；
+     * 改为订阅 Flow 后，任何新增/删除/修改流水都会自动重新计算。
+     */
+    private fun observeSpent() {
         viewModelScope.launch {
             val now = System.currentTimeMillis()
-            val result = repository.summarize(
+            repository.observeSummarySource(
                 startMillis = DateUtils.startOfMonth(now),
-                endMillis = DateUtils.endOfMonth(now),
-                type = TransactionType.EXPENSE
-            )
-            result.onSuccess { summary ->
-                _uiState.update { it.copy(spentCents = summary.totalExpenseInCents) }
-            }.onFailure { throwable ->
+                endMillis = DateUtils.endOfMonth(now)
+            ).catch { throwable ->
                 _uiState.update {
                     it.copy(message = "本月支出读取失败：${throwable.message ?: "请稍后重试"}")
                 }
+            }.collect { list ->
+                // 只统计支出类型，金额字段恒为正，无需再取绝对值
+                val spent = list
+                    .filter { it.type == TransactionType.EXPENSE }
+                    .sumOf { it.amountInCents }
+                _uiState.update { it.copy(spentCents = spent) }
             }
         }
     }

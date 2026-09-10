@@ -55,7 +55,12 @@ internal fun SearchBar(
     )
 }
 
-/** 结果统计条，让用户知道筛选后的条数与合计金额 */
+/**
+ * 结果统计条，让用户知道筛选后的条数与合计金额。
+ *
+ * 这里的合计是"当前列表全部记录"的合计（关键字为空时即历史全部月份），
+ * 与预算页的"本月支出"口径不同，故文案中显式标注范围，避免用户误解。
+ */
 @Composable
 internal fun ResultSummary(count: Int, totalIncome: Long, totalExpense: Long) {
     Column(
@@ -73,6 +78,11 @@ internal fun ResultSummary(count: Int, totalIncome: Long, totalExpense: Long) {
             text = "收入 ${AmountValidator.formatCents(totalIncome)} / " +
                 "支出 ${AmountValidator.formatCents(totalExpense)}",
             style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            text = "统计范围：以上结果集合计（非单月，如需本月支出请看预算页）",
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }

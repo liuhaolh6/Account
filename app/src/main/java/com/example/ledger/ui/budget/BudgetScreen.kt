@@ -141,6 +141,13 @@ private fun BudgetProgressCard(state: BudgetUiState) {
                 style = MaterialTheme.typography.bodySmall,
                 color = if (state.isOverBudget) BudgetOver else MaterialTheme.colorScheme.onSurfaceVariant
             )
+
+            // 明确口径：预算只针对本月，避免用户拿它和流水页的"全部记录合计"对比
+            Text(
+                text = "统计范围：仅本月（不含历史月份）",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
