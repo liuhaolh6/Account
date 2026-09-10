@@ -12,3 +12,6 @@ local.properties
 *.aab
 /app/build/
 /app/release/
+
+# 提交信息临时文件
+COMMIT_MSG.txt
