@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 使用无 ActionBar 的主题，导航栏完全交给 Compose 绘制 -->
+    <style name="Theme.MyLedger" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

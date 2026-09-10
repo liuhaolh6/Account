@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自适应图标的前景/背景色，避免依赖 mipmap 位图资源 -->
+    <color name="ic_launcher_background">#1E88E5</color>
+</resources>
