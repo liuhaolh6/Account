@@ -13,7 +13,7 @@
 |---|---|
 | 类型 | 独立开发（个人项目） |
 | 平台 | Android（minSdk 24 / targetSdk 35） |
-| 代码量 | 49 个 Kotlin 文件，约 3,700 行 |
+| 代码量 | 47 个 Kotlin 文件，约 3,700 行 |
 | 页面数 | 6 个（首页 / 流水列表 / 记账表单 / 统计 / 预算 / 详情） |
 | 单元测试 | 26 个，全部通过 |
 | 构建产物 | `app/build/outputs/apk/debug/app-debug.apk` |
