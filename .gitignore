@@ -15,3 +15,6 @@ local.properties
 
 # 提交信息临时文件
 COMMIT_MSG.txt
+
+# AI 编码助手配置（不纳入公开仓库）
+.clinerules
