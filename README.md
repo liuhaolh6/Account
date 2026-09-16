@@ -216,6 +216,20 @@ build.bat testDebugUnitTest  :: 运行单元测试
 
 `build.bat` 已内置 JDK、SDK 路径与编码修正，无需手工配置环境变量。
 
+### 课程实验模块
+
+基础实验（Kotlin 与 Compose 基础界面）的演示代码集中在 `app/src/main/java/com/example/ledger/lab/`，
+与记账业务解耦，通过独立的 Launcher Activity 入口「实验1 · 课程任务」启动。
+
+| 文件 | 说明 |
+|---|---|
+| `lab/CourseTask.kt` | `CourseTask` 数据类、`sampleTasks` 测试数据、`displayOwner` 空安全函数 |
+| `lab/TaskCard.kt` | 可复用任务卡片组件，含 3 个独立 Preview |
+| `lab/Lab1Screen.kt` | 三条任务的列表界面，含整屏 Preview |
+| `lab/Lab1Activity.kt` | 实验独立入口 Activity |
+| `app/src/test/.../lab/CourseTaskTest.kt` | 6 个 JVM 单测，覆盖空安全与 data class 行为 |
+| `docs/lab1/实验1-实验报告.md` | 实验报告（环境、关键代码、截图、故障记录） |
+
 ---
 
 ## 九、遇到的问题与解决
