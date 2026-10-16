@@ -13,6 +13,12 @@ local.properties
 /app/build/
 /app/release/
 
+# Kotlin 2.x 编译增量缓存（Gradle 在项目根与模块下自动生成）
+# 曾经踩坑：这类缓存会让已删除源码的 .class 产物在测试报告中"诈尸"，
+# 表现为测试用例数远多于源码里的 @Test 数量。必须忽略。
+.kotlin/
+/app/.kotlin/
+
 # 提交信息临时文件
 COMMIT_MSG.txt
 

@@ -19,18 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- 实验1 独立入口：用于演示 TaskCard 组件，不参与记账主流程 -->
-        <activity
-            android:name=".lab.Lab1Activity"
-            android:exported="true"
-            android:label="实验1 · 课程任务"
-            android:theme="@style/Theme.MyLedger">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
