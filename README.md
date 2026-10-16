@@ -13,9 +13,9 @@
 |---|---|
 | 类型 | 独立开发 |
 | 平台 | Android（minSdk 24 / targetSdk 35） |
-| 代码量 | 47 个 Kotlin 文件，约 3,700 行 |
+| 代码量 | 49 个 Kotlin 文件，约 3,900 行（含 4 个测试文件） |
 | 页面数 | 6 个（首页 / 流水列表 / 记账表单 / 统计 / 预算 / 详情） |
-| 单元测试 | 26 个，全部通过 |
+| 单元测试 | 32 个，全部通过 |
 | 构建产物 | `app/build/outputs/apk/debug/app-debug.apk` |
 
 ---
@@ -197,6 +197,7 @@ ORDER BY amount DESC
 | `AmountValidatorTest` | 金额解析、边界值、格式化、备注校验 | 15 |
 | `DateUtilsTest` | 月初月末边界、区间左闭右开、月份偏移 | 5 |
 | `TransactionTest` | 收支符号、分类兜底、汇总计算、分类唯一性 | 6 |
+| `CourseTaskTest` | 空安全、data class 行为、示例数据 | 6 |
 
 测试重点放在 **金额与时间** 这两处最易出错、且出错后果最严重（账目错误）的逻辑上。
 
@@ -218,17 +219,18 @@ build.bat testDebugUnitTest  :: 运行单元测试
 
 ### 课程实验模块
 
-基础实验（Kotlin 与 Compose 基础界面）的演示代码集中在 `app/src/main/java/com/example/ledger/lab/`，
-与记账业务解耦，通过独立的 Launcher Activity 入口「实验1 · 课程任务」启动。
+基础实验（Kotlin 与 Compose 基础界面）中**与记账业务解耦的领域模型**保留在
+`app/src/main/java/com/example/ledger/lab/`，作为纯 Kotlin 示例代码。
 
 | 文件 | 说明 |
 |---|---|
 | `lab/CourseTask.kt` | `CourseTask` 数据类、`sampleTasks` 测试数据、`displayOwner` 空安全函数 |
-| `lab/TaskCard.kt` | 可复用任务卡片组件，含 3 个独立 Preview |
-| `lab/Lab1Screen.kt` | 三条任务的列表界面，含整屏 Preview |
-| `lab/Lab1Activity.kt` | 实验独立入口 Activity |
 | `app/src/test/.../lab/CourseTaskTest.kt` | 6 个 JVM 单测，覆盖空安全与 data class 行为 |
 | `docs/lab1/实验1-实验报告.md` | 实验报告（环境、关键代码、截图、故障记录） |
+
+> 实验1 中带独立 Launcher 入口的 Compose 界面（`Lab1Activity` / `Lab1Screen` / `TaskCard`）
+> 已移除：它们属于教学演示界面，与记账主体功能无关，却会在桌面多出一个应用图标、
+> 并让发布包混入无用类。如需查阅，可从提交 `ab2fc1a` 取回。
 
 ---
 
@@ -236,7 +238,7 @@ build.bat testDebugUnitTest  :: 运行单元测试
 
 | 问题 | 原因 | 解决 |
 |---|---|---|
-| AGP 拒绝构建 | 项目路径含中文 | `gradle.properties` 设置 `android.overridePathCheck=true` |
+| AGP 拒绝构建 | 项目早期路径含中文 | `gradle.properties` 设置 `android.overridePathCheck=true`（工程现已迁至 ASCII 路径，该开关保留仅为兼容） |
 | Gradle 测试工作进程崩溃，报 `ClassNotFoundException: GradleWorkerMain` | Gradle 用户目录与系统 TEMP 位于中文路径，传给 worker 的 classpath 编码错乱 | 创建 `C:\gradle-home` 目录联接，并在 `build.bat` 中把 `GRADLE_USER_HOME`、`TEMP` 重定向到纯 ASCII 路径 |
 | 测试类加载失败 | 项目路径本身含中文 | 创建 `C:\ledger-app` 目录联接，从该路径执行构建 |
 | `GradleWrapperMain` 无法加载 | 自行拼装的 wrapper jar 缺少依赖类 | `build.bat` 直接调用本机缓存的 Gradle 发行版 |
